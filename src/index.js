@@ -2,145 +2,83 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square(props) {
-    return (
-      <button 
-        className="square"
-        onClick={() => props.onClick()}
-      >
-        {props.value}
-      </button>
-    );
+// fuction component
+function Welcome(props) {
+  return <h1>{props.name}</h1>;
 }
 
-function calculateWinner(squares) {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-}
-
-class Board extends React.Component {
-  renderSquare(i) {
-    return <Square 
-      value={this.props.squares[i]}
-      onClick={() => this.props.onClick(i)}
-    />;
-  }
-
+// class component
+class WelcomeES6 extends React.Component {
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+      <Welcome
+        name="John"
+      />
+      <h1>welcome ES6, {this.props.name}</h1>
       </div>
     );
   }
 }
 
-class Game extends React.Component {
+class Clock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      history: [
-        Array(9).fill(null)
-      ],
-      xsTurn: true,
-      stepNumber: 0
-    }
+      date: new Date(),
+      counter: 0
+    };
   }
 
-  squareClick(i) {
-    const history = this.state.history.slice(0, this.state.stepNumber + 1);
-    const square = this.state.history[this.state.history.length - 1].slice();
-    square[i] = this.state.xsTurn ? 'X': 'O';
+  componentDidMount() {
+    this.timerId = setInterval(() => this.tick(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerId);
+  }
+
+  tick() {
     this.setState({
-      history: history.concat([square]),
-      xsTurn: !this.state.xsTurn,
-      stepNumber: history.length
+      date: new Date()
     });
-  }
 
-  renderBoard() {
-    return <Board 
-      squares={this.state.history[this.state.stepNumber]}
-      onClick={(i) => this.squareClick(i)}
-    />;
-  }
-
-  jumpTo(step) {
-    const history = this.state.history.slice(0, step + 1);
-    this.setState({
-      history: history,
-      stepNumber: step,
-      xsTurn: (step % 2) === 0,
-    });
+    // if new state is based on old state or new props
+    this.setState((state, props) => ({
+      counter: state.counter + props.increment
+    }));
   }
 
   render() {
-    const moves = this.state.history.map((step, move) => {
-      const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
-      return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
-        </li>
-      );
-    });
-
-    let status = 'Next player: ' + (this.state.xsTurn ? 'X' : 'O');
-    const winner = calculateWinner(this.state.history[this.state.history.length - 1]);
-    if (winner) {
-      status = 'Winner: ' + winner;
-    }
-
-    return (
-      <div className="game">
-        <div className="game-board">
-        <div className="status">{status}</div>
-          {this.renderBoard()}
-          {moves}
-        </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
-        </div>
-      </div>
-    );
-  }
+    return <div>
+      <h1>Hello, world!</h1>
+      <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+      <p>{this.state.counter}</p>
+    </div>
+  };
 }
+
+function App(props) {
+  return (
+    <div>
+      <Clock
+        increment={1}
+      />
+      <Clock
+        increment={2}
+      />
+      <Clock
+        increment={3}
+      />
+    </div>
+  );
+}
+
 
 // ========================================
 
 ReactDOM.render(
-  <Game />,
+  <App/>,
   document.getElementById('root')
 );
   
