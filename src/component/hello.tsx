@@ -1,4 +1,5 @@
 import * as React from 'react';
+import store from '../store';
 
 export interface Props {
     name: string,
@@ -36,12 +37,14 @@ class HelloClass extends React.Component<Props, State> {
     }
 
     onIncrement = () => {
+        store.count++;
         this.setState((state, props) => ({
             currentHappiness: state.currentHappiness + 1
         }));
     }
 
     onDecrement = () => {
+        store.count--;
         this.setState((state, props) => ({
             currentHappiness: state.currentHappiness - 1
         }));
@@ -50,9 +53,14 @@ class HelloClass extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                Hello {this.props.name}, happiness {this.state.currentHappiness}
-                <button onClick={this.onIncrement}>Inc</button>
-                <button onClick={this.onDecrement}>Dec</button>
+                <div>        
+                    Hello {this.props.name}, happiness {this.state.currentHappiness}
+                    <button onClick={this.onIncrement}>Inc</button>
+                    <button onClick={this.onDecrement}>Dec</button>
+                </div>
+                <div>
+                    count: {store.count}
+                </div>
             </div>
         );
     }
