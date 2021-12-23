@@ -7,6 +7,8 @@ import {Clock} from './component.js';
 import {Toggle} from './event_handler.js';
 import {NumberLists} from './list.js';
 
+
+// composition
 function FancyBorder(props) {
   return (
     <div className='FancyBorder'>
