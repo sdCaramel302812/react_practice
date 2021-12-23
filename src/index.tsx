@@ -1,9 +1,5 @@
 import HelloDefault from './component/hello';
-import Hello from './component/hello';
-import reducers from './reducers/index';
-import { createStore } from 'redux'
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 
 //const store = createStore(reducers);
 

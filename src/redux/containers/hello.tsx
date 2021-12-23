@@ -1,5 +1,5 @@
-import Hello from '../component/hello';
-import * as actions from '../actions/';
+import Hello from '../../component/hello';
+import * as actions from '../actions';
 import { StoreState } from '../types/index';
 import { Dispatch } from "redux"
 import { connect } from 'react-redux';
