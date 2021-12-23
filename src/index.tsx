@@ -1,10 +1,16 @@
+import HelloDefault from './component/hello';
 import Hello from './component/hello';
+import reducers from './reducers/index';
+import { createStore } from 'redux'
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
+//const store = createStore(reducers);
 
 function App() {
   return (
     <div>
-      <Hello
+      <HelloDefault
         name="John"
       />
     </div>
@@ -16,6 +22,8 @@ function App() {
 
 // assert the type of root is HTMLElement
 ReactDOM.render(
-  <App/>,
+//  <Provider store={store}>
+    <App/>,
+//  </Provider>,
   document.getElementById('root') as HTMLElement
 );

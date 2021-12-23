@@ -1,23 +1,28 @@
 import * as React from 'react';
-import { isPropertySignature } from 'typescript';
 
 export interface Props {
     name: string,
-    happinessLevel?: number
+    enthusiasmLevel?: number,
+    onIncrement?: () => void,
+    onDecrement?: () => void,
 }
 
 interface State {
     currentHappiness: number
 }
 
-function Hello({name, happinessLevel = 1}: Props) {
-    if (happinessLevel < 0) {
+export function Hello({name, enthusiasmLevel = 1, onIncrement, onDecrement}: Props) {
+    if (enthusiasmLevel < 0) {
         throw new Error('You should be more happy');
     }
 
     return (
         <div>
-            Hello {name}
+            Hello {name}, {enthusiasmLevel}
+            <div>
+                <button onClick={onDecrement}>-</button>
+                <button onClick={onIncrement}>+</button>
+            </div>
         </div>
     );
 }
@@ -26,7 +31,7 @@ class HelloClass extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            currentHappiness: props.happinessLevel || 1
+            currentHappiness: props.enthusiasmLevel || 1
         };
     }
 
